@@ -15,7 +15,12 @@ body {
     background-color: lightblue;
     height: 100vh;
     width: 85vw;
+    background-image: url(../media/BG.png);
+    background-size: cover;
+    background-position: center center;
 }
 .pixel {
-    background-image: url(../media/Wood.jpg);
+    background-image: url(../media/grass.png);
+    background-position: center center;
+    background-size: cover;
 }
