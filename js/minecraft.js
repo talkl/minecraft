@@ -64,5 +64,45 @@ air, etc).*/
 
 $(document.body).ready(function () {
     // Document is loaded and DOM is ready
+    class Minecraft {
+        constructor(numOfColumns, numOfRows) {
+            this.numOfColumns = numOfColumns;
+            this.numOfRows = numOfRows;
+        }
+    }
+    Minecraft.prototype.createPixels = function () {
+        var world = $('#world');
+        var pixel = $('<div/>');
+        pixel.addClass('pixel');
+        for (var i = 0; i < (this.numOfRows * this.numOfColumns); i++) {
+            world.append(pixel.clone());
+        }
+    }
+    Minecraft.prototype.setGridCss = function () {
+        var world = $('#world');
+        world.css('grid-template', `repeat(${this.numOfRows}, 1fr) / repeat(${this.numOfColumns}, 1fr)`);
+        var pixels = $('.pixel');
+        var worldInitialWidth = parseInt(window.getComputedStyle(document.querySelector('#world')).getPropertyValue('width'));
+        var worldInitialHeight = parseInt(window.getComputedStyle(document.querySelector('#world')).getPropertyValue('height'));
+        pixels.css('width', `${parseFloat(worldInitialWidth / this.numOfColumns)}px`);
+        pixels.css('height', `${parseFloat(worldInitialHeight / this.numOfRows)}px`);
+    }
+    Minecraft.prototype.createMatrix = function() {
+        this.matrix = [];
+        for (var i = 0; i < this.numOfRows; i++) {
+            this.matrix[i] = new Array(this.numOfColumns);
+        }
+    }
+    Minecraft.prototype.runGame = function() {
+        this.createPixels();
+        this.setGridCss();
+        this.createMatrix();
+    }
     
+    var minecraft = new Minecraft(20, 20);
+    
+    minecraft.runGame();
+
+    console.log(minecraft.matrix);
+
 });
