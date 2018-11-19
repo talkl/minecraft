@@ -96,7 +96,10 @@ $(document.body).ready(function () {
             var tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud'];
             var earthOptions = ['stone', 'earth'];
             var cloudOptions = ['cloud', undefined];
-            var greeneryOptions = ['wood', 'leaves', undefined, undefined];
+            var greeneryOptions = ['wood', 'leaves', 'stone', undefined];
+            var stoneOptions = ['stone', undefined];
+            var treeOptions = ['wood', 'leaves', undefined];
+            var leavesOptions = ['leaves', undefined];
             
 
             //creating clouds
@@ -128,11 +131,13 @@ $(document.body).ready(function () {
                 let greeneryArray = new Array(this.numOfColumns);
                 for (var j = 0; j < this.numOfColumns; j++) {
                     if(this.matrix[i+1][j] === 'grass') {
-                        greeneryArray[j] = greeneryOptions[Math.random() * 3 | 0];
+                        greeneryArray[j] = greeneryOptions[Math.random() * 4 | 0];
                     } else if (this.matrix[i + 1][j] === 'wood') {
-                        greeneryArray[j] = greeneryOptions[Math.random() * 2 | 0];
+                        greeneryArray[j] = treeOptions[Math.random() * 3 | 0];
                     } else if (this.matrix[i + 1][j] === 'leaves') {
-                        greeneryArray[j] = greeneryOptions[(Math.random() * 3 | 0) + 1 ];
+                        greeneryArray[j] = leavesOptions[Math.random() * 2 | 0];
+                    } else if (this.matrix[i + 1][j] === 'stone') {
+                        greeneryArray[j] = stoneOptions[Math.random() * 2 | 0];
                     }
                 }
                 this.matrix[i] = greeneryArray;
