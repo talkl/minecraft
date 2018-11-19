@@ -68,6 +68,8 @@ $(document.body).ready(function () {
         constructor(numOfRows,numOfColumns) {
             this.numOfRows = numOfRows || 15;
             this.numOfColumns = numOfColumns || 15;
+            this.toolsArray = ['pickaxe', 'shovel', 'axe'];
+            this.tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud'];
         }
         createPixels() {
             var world = $('#world');
@@ -93,7 +95,7 @@ $(document.body).ready(function () {
             for (var i = 0; i < this.numOfRows; i++) {
                 this.matrix[i] = new Array(this.numOfColumns);
             }
-            var tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud'];
+            var tilesArray = this.tilesArray;
             var earthOptions = ['stone', 'earth'];
             var cloudOptions = ['cloud'];
             var greeneryOptions = ['wood', 'leaves', 'stone'];
@@ -126,7 +128,7 @@ $(document.body).ready(function () {
                     this.matrix[i] = grassArray;
                 }
             }
-            //creating greenery
+            //creating greenery and stones
             for (var i = (this.matrix.length / 1.5 | 0) - 1; i >= (this.matrix.length / 2.4 | 0) ;i--) {
                 let greeneryArray = new Array(this.numOfColumns);
                 for (var j = 0; j < this.numOfColumns; j++) {
@@ -142,6 +144,8 @@ $(document.body).ready(function () {
                 }
                 this.matrix[i] = greeneryArray;
             }
+        }
+        connectMatrixDom() {
             //connect between the matrix to the dom grid
             for (var i = 0; i < this.matrix.length; i++) {
                 for (var j = 0; j < this.matrix[i].length; j++) {
@@ -153,10 +157,60 @@ $(document.body).ready(function () {
                 }
             }
         }
+        createToolsButtons() {
+            var menu = $('#menu');
+            for(var i=0; i < this.toolsArray.length; i++) {
+                let newTool = $('<div/>');
+                newTool.addClass('tool-button');
+                newTool.attr('id', `${this.toolsArray[i]}`);
+                menu.append(newTool);
+            }
+        }
+        createInventory() {
+            var menu = $('#menu');
+            var inventory = $('<div/>');
+            inventory.attr('id', 'inventory');
+            menu.append(inventory);
+            for (var i=0; i <this.tilesArray.length; i++) {
+                let newInventoryItem = $('<div/>');
+                newInventoryItem.addClass('inventory-item');
+                newInventoryItem.attr('id', `${this.tilesArray[i]}`);
+                newInventoryItem.addClass(`${this.tilesArray[i]}`); // to be delted, assign a class only when 1+
+                inventory.append(newInventoryItem);
+            }
+        }
+        bindActiveChoice() {
+            $('.inventory-item').on('click', function() {
+                $('#menu div').removeClass('active');
+                $(this).addClass('active');
+            });
+            $('.tool-button').on('click', function() {
+                $('#menu div').removeClass('active');
+                $(this).addClass('active');
+            });
+        }
+        bindCursorImage() {
+            $('#world').on('mouseenter', function() {
+                var activeChoice = $('.active');
+                if(activeChoice.hasClass('inventory-item')) {
+                    document.body.style.cursor = `url('./media/minecraft-cursor.png'), auto`;    
+                } else {
+                    document.body.style.cursor = `url('./media/${activeChoice.attr('id')}-cursor.png'), auto`;
+                }
+            });
+            $('#world').on('mouseleave', function () {
+                document.body.style.cursor = `auto`;
+            });
+        }
         runGame() {
             this.createPixels();
             this.setGridCss();
             this.createMatrix();
+            this.connectMatrixDom();
+            this.createToolsButtons();
+            this.createInventory();
+            this.bindActiveChoice();
+            this.bindCursorImage();
         }
     }
     
