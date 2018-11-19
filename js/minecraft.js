@@ -95,11 +95,11 @@ $(document.body).ready(function () {
             }
             var tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud'];
             var earthOptions = ['stone', 'earth'];
-            var cloudOptions = ['cloud', undefined];
-            var greeneryOptions = ['wood', 'leaves', 'stone', undefined];
-            var stoneOptions = ['stone', undefined];
-            var treeOptions = ['wood', 'leaves', undefined];
-            var leavesOptions = ['leaves', undefined];
+            var cloudOptions = ['cloud'];
+            var greeneryOptions = ['wood', 'leaves', 'stone'];
+            var stoneOptions = ['stone'];
+            var treeOptions = ['wood', 'leaves'];
+            var leavesOptions = ['leaves'];
             
 
             //creating clouds
@@ -145,11 +145,11 @@ $(document.body).ready(function () {
             //connect between the matrix to the dom grid
             for (var i = 0; i < this.matrix.length; i++) {
                 for (var j = 0; j < this.matrix[i].length; j++) {
-                    this.pixels.eq(i * this.numOfColumns + j)
-                        .data("i", i)
-                        .data("j", j)
-                        .data("tile", `${this.matrix[i][j]}`)
-                        .addClass(`${this.matrix[i][j]}`);
+                    let currentPixel = this.pixels.eq(i * this.numOfColumns + j);
+                    currentPixel.data("i", i).data("j", j).data("tile", `${this.matrix[i][j]}`);
+                    if (this.matrix[i][j] !== undefined) {
+                        currentPixel.addClass(`${this.matrix[i][j]}`);
+                    }
                 }
             }
         }
