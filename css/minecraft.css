@@ -20,7 +20,50 @@ body {
     background-position: center center;
 }
 .pixel {
-    background-image: url(../media/grass.png);
     background-position: center center;
     background-size: cover;
+    /* background-image: none; */
+}
+.pixel:hover {
+    opacity: 0.7;
+}
+.wood {
+    background-image: url(../media/wood.png);
+    background-size: cover;
+    background-position: center center;
+}
+.waves {
+    background-image: url(../media/waves.png);
+    background-size: cover;
+    background-position: center center;
+}
+.water {
+    background-image: url(../media/water.png);
+    background-size: cover;
+    background-position: center center;
+}
+.stone {
+    background-image: url(../media/stone.png);
+    background-size: cover;
+    background-position: center center;
+}
+.leaves {
+    background-image: url(../media/leaves.png);
+    background-size: cover;
+    background-position: center center;
+}
+.grass {
+    background-image: url(../media/grass.png);
+    background-size: cover;
+    background-position: center center;
+}
+.earth {
+    background-image: url(../media/earth.png);
+    background-size: cover;
+    background-position: center center;
+}
+.cloud {
+    background-image: url(../media/cloud.png);
+    background-size: cover;
+    background-position: center center;
 }
