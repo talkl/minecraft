@@ -96,6 +96,7 @@ $(document.body).ready(function () {
             var tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud'];
             var earthOptions = ['stone', 'earth'];
             var cloudOptions = ['cloud', undefined];
+            var greeneryOptions = ['wood', 'leaves', undefined, undefined];
             
 
             //creating clouds
@@ -121,6 +122,20 @@ $(document.body).ready(function () {
                     }
                     this.matrix[i] = grassArray;
                 }
+            }
+            //creating greenery
+            for (var i = (this.matrix.length / 1.5 | 0) - 1; i >= (this.matrix.length / 2.4 | 0) ;i--) {
+                let greeneryArray = new Array(this.numOfColumns);
+                for (var j = 0; j < this.numOfColumns; j++) {
+                    if(this.matrix[i+1][j] === 'grass') {
+                        greeneryArray[j] = greeneryOptions[Math.random() * 3 | 0];
+                    } else if (this.matrix[i + 1][j] === 'wood') {
+                        greeneryArray[j] = greeneryOptions[Math.random() * 2 | 0];
+                    } else if (this.matrix[i + 1][j] === 'leaves') {
+                        greeneryArray[j] = greeneryOptions[(Math.random() * 3 | 0) + 1 ];
+                    }
+                }
+                this.matrix[i] = greeneryArray;
             }
             //connect between the matrix to the dom grid
             for (var i = 0; i < this.matrix.length; i++) {
