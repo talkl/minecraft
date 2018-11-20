@@ -65,6 +65,10 @@ body {
     color: white;
     font-size : 1.2vw;overflow: hidden;
 }
+.empty {
+    opacity: 0.15;
+    pointer-events: none;
+}
 .inventory-item:hover {
     border-color: blue;
 }

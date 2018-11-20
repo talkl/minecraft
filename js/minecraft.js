@@ -70,6 +70,7 @@ $(document.body).ready(function () {
             this.numOfColumns = numOfColumns || 15;
             this.toolsArray = ['pickaxe', 'shovel', 'axe'];
             this.tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud'];
+            this.inventory = new Map();
         }
         createPixels() {
             var world = $('#world');
@@ -175,8 +176,10 @@ $(document.body).ready(function () {
                 let newInventoryItem = $('<div/>');
                 newInventoryItem.addClass('inventory-item');
                 newInventoryItem.attr('id', `${this.tilesArray[i]}`);
-                newInventoryItem.addClass(`${this.tilesArray[i]}`); // to be delted, assign a class only when 1+
+                newInventoryItem.addClass(`${this.tilesArray[i]}`);
+                newInventoryItem.addClass('empty');
                 inventory.append(newInventoryItem);
+                this.inventory.set(this.tilesArray[i], 0);
             }
         }
         bindActiveChoice() {
@@ -202,6 +205,69 @@ $(document.body).ready(function () {
                 document.body.style.cursor = `auto`;
             });
         }
+        bindOnPixelClick() {
+            var self = this;
+            var pixels = $('.pixel');
+            pixels.on('click', function() {
+                var activeChoice = $('.active');
+                var clickedTile = $(this);
+                if(activeChoice.hasClass('tool-button')) {
+                    switch(activeChoice.attr('id')) {
+                        case 'axe':
+                            if(clickedTile.hasClass('wood')) {
+                                clickedTile.removeClass('wood');
+                                self.addToInventory('wood');
+                            } else if (clickedTile.hasClass('leaves')) {
+                                clickedTile.removeClass('leaves');
+                                self.addToInventory('leaves');
+                            }
+                            break;
+                        case 'shovel':
+                            if (clickedTile.hasClass('earth')) {
+                                clickedTile.removeClass('earth');
+                                self.addToInventory('earth');
+                            } else if(clickedTile.hasClass('grass')) {
+                                clickedTile.removeClass('grass');
+                                self.addToInventory('grass');
+                            }
+                            break;
+                        case 'pickaxe':
+                            if (clickedTile.hasClass('stone')) {
+                                clickedTile.removeClass('stone');
+                                self.addToInventory('stone');
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                } else if (activeChoice.hasClass('inventory-item') && clickedTile.attr('class') === 'pixel') {
+                    var currentInventory = activeChoice.attr('id');
+                    clickedTile.addClass(currentInventory);
+                    self.removeFromInventory(currentInventory);
+                }
+            });
+        } // end of on click logic
+        addToInventory(tileType) {
+            var inventoryToAdd = $(`#${tileType}.inventory-item`);
+            if (this.inventory.get(tileType) === 0) {
+                inventoryToAdd.removeClass('empty');
+            }
+            this.inventory.set(tileType, this.inventory.get(tileType) + 1);
+            inventoryToAdd.text(this.inventory.get(tileType));
+        }
+        removeFromInventory(tileType) {
+            var inventoryToDelete = $(`#${tileType}.inventory-item`);
+            if (inventoryToDelete.text() === '1') {
+                inventoryToDelete.contents().remove();
+                inventoryToDelete.addClass('empty');
+                inventoryToDelete.removeClass('active');
+                document.body.style.cursor = `auto`;
+                this.inventory.set(tileType, 0);
+            } else {
+                this.inventory.set(tileType, this.inventory.get(tileType) - 1);
+                inventoryToDelete.text( (inventoryToDelete.text()-1).toString() );
+            }
+        }
         runGame() {
             this.createPixels();
             this.setGridCss();
@@ -211,13 +277,12 @@ $(document.body).ready(function () {
             this.createInventory();
             this.bindActiveChoice();
             this.bindCursorImage();
+            this.bindOnPixelClick()
         }
     }
     
     var myMinecraft = new Minecraft();
 
     myMinecraft.runGame();
-
-    console.log(myMinecraft.matrix);
 
 });
