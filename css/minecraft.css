@@ -1,8 +1,6 @@
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    width: 100vw;
     box-sizing: border-box;
     font-family: Minecraft, Verdana, Arial;
          
@@ -12,7 +10,8 @@ body {
     src: url(../media/Minecrafter.ttf) format("truetype"); /* Safari, Android, iOS */
     }
 #menu {
-    float: right;
+    position: fixed;
+    right: 0;
     width: 15vw;
     height: 100vh;
     background-color: dimgrey;
@@ -82,10 +81,11 @@ body {
     display: inline-grid;
     background-color: lightblue;
     height: 100vh;
-    width: 85vw;
+    width: 3000px;
     background-image: url(../media/BG.png);
-    background-size: cover;
+    background-size: contain;
     background-position: center center;
+    background-repeat: repeat-x;
 }
 .pixel {
     background-position: center center;

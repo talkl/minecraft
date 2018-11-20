@@ -281,7 +281,7 @@ $(document.body).ready(function () {
         }
     }
     
-    var myMinecraft = new Minecraft();
+    var myMinecraft = new Minecraft(15, 50);
 
     myMinecraft.runGame();
 
