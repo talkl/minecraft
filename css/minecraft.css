@@ -133,11 +133,12 @@ body {
     display: inline-grid;
     background-color: lightblue;
     height: 100vh;
-    width: 2000px;
     background-image: url(../media/BG.png);
-    background-size: contain;
+    background-size: cover;
     background-position: center center;
     background-repeat: repeat-x;
+    background-repeat: repeat-y;
+    
 }
 .pixel {
     background-position: center center;
