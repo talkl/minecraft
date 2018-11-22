@@ -74,8 +74,14 @@ body {
 .inventory-item.active {
     border-color: blue;
 }
+.inventory-item.ilegal {
+    border-color: red;
+}
 .tool-button.active {
     background-color: blue;
+}
+.tool-button.ilegal {
+    background-color: red;
 }
 #world {
     display: inline-grid;

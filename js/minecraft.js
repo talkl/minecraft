@@ -220,6 +220,12 @@ $(document.body).ready(function () {
                             } else if (clickedTile.hasClass('leaves')) {
                                 clickedTile.removeClass('leaves');
                                 self.addToInventory('leaves');
+                            } else {
+                                activeChoice.addClass('ilegal');
+                                setTimeout(function() {
+                                    activeChoice.removeClass('ilegal');
+                                }
+                                ,500);
                             }
                             break;
                         case 'shovel':
@@ -229,12 +235,24 @@ $(document.body).ready(function () {
                             } else if(clickedTile.hasClass('grass')) {
                                 clickedTile.removeClass('grass');
                                 self.addToInventory('grass');
+                            } else{
+                                activeChoice.addClass('ilegal');
+                                setTimeout(function () {
+                                    activeChoice.removeClass('ilegal');
+                                }
+                                , 500);
                             }
                             break;
                         case 'pickaxe':
                             if (clickedTile.hasClass('stone')) {
                                 clickedTile.removeClass('stone');
                                 self.addToInventory('stone');
+                            } else {
+                                activeChoice.addClass('ilegal');
+                                setTimeout(function () {
+                                    activeChoice.removeClass('ilegal');
+                                }
+                                , 500);
                             }
                             break;
                         default:
@@ -244,6 +262,12 @@ $(document.body).ready(function () {
                     var currentInventory = activeChoice.attr('id');
                     clickedTile.addClass(currentInventory);
                     self.removeFromInventory(currentInventory);
+                } else if (activeChoice.hasClass('inventory-item') && clickedTile.attr('class') !== 'pixel') {
+                    activeChoice.addClass('ilegal');
+                    setTimeout(function () {
+                        activeChoice.removeClass('ilegal');
+                    }
+                    , 500);
                 }
             });
         } // end of on click logic
