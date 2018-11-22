@@ -68,7 +68,7 @@ $(document.body).ready(function () {
         constructor(numOfRows,numOfColumns) {
             this.numOfRows = numOfRows || 15;
             this.numOfColumns = numOfColumns || 15;
-            this.toolsArray = ['pickaxe', 'shovel', 'axe'];
+            this.toolsArray = ['pickaxe', 'shovel', 'axe', 'bucket', 'pump'];
             this.tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud'];
             this.inventory = new Map();
         }
@@ -97,12 +97,12 @@ $(document.body).ready(function () {
                 this.matrix[i] = new Array(this.numOfColumns);
             }
             var tilesArray = this.tilesArray;
-            var earthOptions = ['stone', 'earth'];
+            var earthOptions = ['stone', 'earth', 'earth', 'earth', 'earth', 'earth', 'earth', 'earth', 'earth'];
             var cloudOptions = ['cloud'];
-            var greeneryOptions = ['wood', 'leaves', 'stone'];
-            var stoneOptions = ['stone'];
+            var greeneryOptions = ['wood', 'leaves', 'stone', undefined];
+            var stoneOptions = ['stone', undefined];
             var treeOptions = ['wood', 'leaves'];
-            var leavesOptions = ['leaves'];
+            var leavesOptions = ['leaves', undefined];
             
 
             //creating clouds
@@ -114,19 +114,44 @@ $(document.body).ready(function () {
                 this.matrix[i] = cloudsArray;
             }
             //creating ground
-            for (var i = this.matrix.length; i >= (this.matrix.length / 1.5 | 0); i--) {
+            for (var i = (this.matrix.length - 1); i >= (this.matrix.length / 1.5 | 0); i--) {
                 let earthArray = new Array(this.numOfColumns);
+                // for (var j = 0; j < this.numOfColumns; j++) {
+                //     if(i+1 < this.matrix.length && this.matrix[i+1][j] === 'water') {
+                //         earthArray[j] = 'water';
+                //     } else if(j-1 >=0 && j-1 < earthArray.length && this.matrix[i][j-1] === 'water') {
+                //         earthArray[j] = 'water';
+                //         earthArray[j+1] = j+1< earthArray.length? 'water' : undefined;
+                //         earthArray[j + 2] = j + 2 < earthArray.length ? 'water' : undefined;
+                //         earthArray[j + 3] = j + 3 < earthArray.length ? 'water' : undefined;
+                //         j += 3;
+                //     }
+                //     else {
+                //         earthArray[j] = earthOptions[Math.random() * earthOptions.length | 0];
+                //     }
+                // }
                 for (var j = 0; j < this.numOfColumns; j++) {
-                    earthArray[j] = earthOptions[Math.random() * 2 | 0];
+                    if (i + 1 < this.matrix.length && this.matrix[i + 1][j] === 'water') {
+                        earthArray[j] = 'water';
+                    } else if (j >= (this.matrix[i].length / 4 | 0) && j <= (this.matrix[i].length / 2 |0)) {
+                        earthArray[j] = 'water';
+                    }
+                    else {
+                        earthArray[j] = earthOptions[Math.random() * earthOptions.length | 0];
+                    }
                 }
                 this.matrix[i] = earthArray;
                 if (i === (this.matrix.length / 1.5 | 0)) {
-                    //creating the grass section
-                    let grassArray = new Array(this.numOfColumns);
+                    //creating the surface section
+                    let surfaceArray = new Array(this.numOfColumns);
                     for(var j=0; j < this.numOfColumns; j++) {
-                        grassArray[j] = tilesArray[tilesArray.indexOf('grass')];
+                        if(this.matrix[i+1][j] === 'water') {
+                            surfaceArray[j] = tilesArray[tilesArray.indexOf('waves')];
+                        } else {
+                            surfaceArray[j] = tilesArray[tilesArray.indexOf('grass')];
+                        }
                     }
-                    this.matrix[i] = grassArray;
+                    this.matrix[i] = surfaceArray;
                 }
             }
             //creating greenery and stones
@@ -134,13 +159,13 @@ $(document.body).ready(function () {
                 let greeneryArray = new Array(this.numOfColumns);
                 for (var j = 0; j < this.numOfColumns; j++) {
                     if(this.matrix[i+1][j] === 'grass') {
-                        greeneryArray[j] = greeneryOptions[Math.random() * 4 | 0];
+                        greeneryArray[j] = greeneryOptions[Math.random() * greeneryOptions.length | 0];
                     } else if (this.matrix[i + 1][j] === 'wood') {
-                        greeneryArray[j] = treeOptions[Math.random() * 3 | 0];
+                        greeneryArray[j] = treeOptions[Math.random() * treeOptions.length | 0];
                     } else if (this.matrix[i + 1][j] === 'leaves') {
-                        greeneryArray[j] = leavesOptions[Math.random() * 2 | 0];
+                        greeneryArray[j] = leavesOptions[Math.random() * leavesOptions.length | 0];
                     } else if (this.matrix[i + 1][j] === 'stone') {
-                        greeneryArray[j] = stoneOptions[Math.random() * 2 | 0];
+                        greeneryArray[j] = stoneOptions[Math.random() * stoneOptions.length | 0];
                     }
                 }
                 this.matrix[i] = greeneryArray;
@@ -253,6 +278,35 @@ $(document.body).ready(function () {
                                     activeChoice.removeClass('ilegal');
                                 }
                                 , 500);
+                            }
+                            break;
+                        case 'bucket':
+                            if (clickedTile.hasClass('waves')) {
+                                clickedTile.removeClass('waves');
+                                self.addToInventory('waves');
+                            } else if (clickedTile.hasClass('water')) {
+                                clickedTile.removeClass('water');
+                                self.addToInventory('water');
+                            }
+                            else {
+                                activeChoice.addClass('ilegal');
+                                setTimeout(function () {
+                                    activeChoice.removeClass('ilegal');
+                                }
+                                    , 500);
+                            }
+                            break;
+                        case 'pump':
+                            if (clickedTile.hasClass('cloud')) {
+                                clickedTile.removeClass('cloud');
+                                self.addToInventory('cloud');
+                            }
+                            else {
+                                activeChoice.addClass('ilegal');
+                                setTimeout(function () {
+                                    activeChoice.removeClass('ilegal');
+                                }
+                                    , 500);
                             }
                             break;
                         default:

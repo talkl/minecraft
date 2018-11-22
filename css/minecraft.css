@@ -44,6 +44,12 @@ body {
 #axe {
     background-image: url(../media/axe.png);
 }
+#bucket {
+    background-image: url(../media/bucket.png);
+}
+#pump {
+    background-image: url(../media/pump.png);
+}
 #inventory {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
