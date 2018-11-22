@@ -67,9 +67,9 @@ $(document.body).ready(function () {
     class Minecraft {
         constructor(numOfRows,numOfColumns) {
             this.numOfRows = numOfRows || 15;
-            this.numOfColumns = numOfColumns || 15;
+            this.numOfColumns = numOfColumns || 50;
             this.toolsArray = ['pickaxe', 'shovel', 'axe', 'bucket', 'pump'];
-            this.tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud'];
+            this.tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud', 'tree'];
             this.inventory = new Map();
         }
         createPixels() {
@@ -98,8 +98,8 @@ $(document.body).ready(function () {
             }
             var tilesArray = this.tilesArray;
             var earthOptions = ['stone', 'earth', 'earth', 'earth', 'earth', 'earth', 'earth', 'earth', 'earth'];
-            var cloudOptions = ['cloud'];
-            var greeneryOptions = ['wood', 'leaves', 'stone', undefined];
+            var cloudOptions = ['cloud', undefined, undefined, undefined, undefined];
+            var greeneryOptions = ['wood', 'tree', undefined, undefined, undefined];
             var stoneOptions = ['stone', undefined];
             var treeOptions = ['wood', 'leaves'];
             var leavesOptions = ['leaves', undefined];
@@ -109,27 +109,13 @@ $(document.body).ready(function () {
             for (var i = (this.matrix.length / 8) | 0; i < (this.matrix.length / 4 | 0); i++) {
                 let cloudsArray = new Array(this.numOfColumns);
                 for (var j = 0; j < this.numOfColumns; j++) {
-                    cloudsArray[j] = cloudOptions[Math.random() * 2 | 0];
+                    cloudsArray[j] = cloudOptions[Math.random() * cloudOptions.length | 0];
                 }
                 this.matrix[i] = cloudsArray;
             }
             //creating ground
             for (var i = (this.matrix.length - 1); i >= (this.matrix.length / 1.5 | 0); i--) {
                 let earthArray = new Array(this.numOfColumns);
-                // for (var j = 0; j < this.numOfColumns; j++) {
-                //     if(i+1 < this.matrix.length && this.matrix[i+1][j] === 'water') {
-                //         earthArray[j] = 'water';
-                //     } else if(j-1 >=0 && j-1 < earthArray.length && this.matrix[i][j-1] === 'water') {
-                //         earthArray[j] = 'water';
-                //         earthArray[j+1] = j+1< earthArray.length? 'water' : undefined;
-                //         earthArray[j + 2] = j + 2 < earthArray.length ? 'water' : undefined;
-                //         earthArray[j + 3] = j + 3 < earthArray.length ? 'water' : undefined;
-                //         j += 3;
-                //     }
-                //     else {
-                //         earthArray[j] = earthOptions[Math.random() * earthOptions.length | 0];
-                //     }
-                // }
                 for (var j = 0; j < this.numOfColumns; j++) {
                     if (i + 1 < this.matrix.length && this.matrix[i + 1][j] === 'water') {
                         earthArray[j] = 'water';
@@ -164,8 +150,6 @@ $(document.body).ready(function () {
                         greeneryArray[j] = treeOptions[Math.random() * treeOptions.length | 0];
                     } else if (this.matrix[i + 1][j] === 'leaves') {
                         greeneryArray[j] = leavesOptions[Math.random() * leavesOptions.length | 0];
-                    } else if (this.matrix[i + 1][j] === 'stone') {
-                        greeneryArray[j] = stoneOptions[Math.random() * stoneOptions.length | 0];
                     }
                 }
                 this.matrix[i] = greeneryArray;
@@ -245,7 +229,11 @@ $(document.body).ready(function () {
                             } else if (clickedTile.hasClass('leaves')) {
                                 clickedTile.removeClass('leaves');
                                 self.addToInventory('leaves');
-                            } else {
+                            } else if(clickedTile.hasClass('tree')) {
+                                clickedTile.removeClass('tree');
+                                self.addToInventory('tree');
+                            }
+                            else {
                                 activeChoice.addClass('ilegal');
                                 setTimeout(function() {
                                     activeChoice.removeClass('ilegal');
@@ -314,7 +302,7 @@ $(document.body).ready(function () {
                     }
                 } else if (activeChoice.hasClass('inventory-item') && clickedTile.attr('class') === 'pixel') {
                     var currentInventory = activeChoice.attr('id');
-                    clickedTile.addClass(currentInventory);
+                    clickedTile.addClass(currentInventory).hide().fadeIn();
                     self.removeFromInventory(currentInventory);
                 } else if (activeChoice.hasClass('inventory-item') && clickedTile.attr('class') !== 'pixel') {
                     activeChoice.addClass('ilegal');
@@ -359,7 +347,7 @@ $(document.body).ready(function () {
         }
     }
     
-    var myMinecraft = new Minecraft(15, 50);
+    var myMinecraft = new Minecraft();
 
     myMinecraft.runGame();
 
