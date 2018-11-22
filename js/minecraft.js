@@ -64,14 +64,32 @@ air, etc).*/
 
 $(document.body).ready(function () {
     // Document is loaded and DOM is ready
+    function createWorlsButtons() {
+        for (let w = 0; w < worldTypes.length; w++) {
+            let newBtn = $('<button/>');
+            newBtn.addClass("button").html(worldTypes[w]).attr('id', worldTypes[w]);
+            $('#world-type').append(newBtn);
+        }
+    }
+    function bindWorldsButtons() {
+        $('#random').on('click', function() {
+            var randomMinecraft = new Minecraft();
+            randomMinecraft.runGame();
+            $('#start-screen').hide();
+            $('#menu').fadeIn();
+            $('#world').fadeIn();
+        });
+    }
+
     class Minecraft {
         constructor(numOfRows,numOfColumns) {
-            this.numOfRows = numOfRows || 15;
+            this.numOfRows = numOfRows || 20;
             this.numOfColumns = numOfColumns || 50;
             this.toolsArray = ['pickaxe', 'shovel', 'axe', 'bucket', 'pump'];
             this.tilesArray = ['wood', 'waves', 'water', 'stone', 'leaves', 'grass', 'earth', 'cloud', 'tree'];
             this.inventory = new Map();
         }
+        
         createPixels() {
             var world = $('#world');
             var pixel = $('<div/>');
@@ -119,7 +137,7 @@ $(document.body).ready(function () {
                 for (var j = 0; j < this.numOfColumns; j++) {
                     if (i + 1 < this.matrix.length && this.matrix[i + 1][j] === 'water') {
                         earthArray[j] = 'water';
-                    } else if (j >= (this.matrix[i].length / 4 | 0) && j <= (this.matrix[i].length / 2 |0)) {
+                    } else if (i <= this.matrix.length - 4 && j >= (this.matrix[i].length / 4 | 0) && j <= (this.matrix[i].length / 2 |0)) {
                         earthArray[j] = 'water';
                     }
                     else {
@@ -346,9 +364,13 @@ $(document.body).ready(function () {
             this.bindOnPixelClick()
         }
     }
-    
-    var myMinecraft = new Minecraft();
 
-    myMinecraft.runGame();
+
+    // main
+    $('#menu').hide();
+    $('#world').hide();
+    var worldTypes = ['dark', 'sunny', 'random'];
+    createWorlsButtons();
+    bindWorldsButtons();
 
 });

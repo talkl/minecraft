@@ -9,6 +9,46 @@ body {
     font-family: Minecraft;
     src: url(../media/Minecrafter.ttf) format("truetype"); /* Safari, Android, iOS */
     }
+#world-type {
+    display: flex;
+    justify-content: space-evenly;
+    top: 40%;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 93%;
+}
+.button {
+    padding: 10px;
+    border-radius: 8%;
+    color: black;
+    width: 15%;
+    height: 7%;
+    font-family: Minecraft, Verdana, Arial;
+    font-size: 2vw;
+    background-color: cornflowerblue
+}
+#tutorial-button {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgb(153, 242, 64);
+}
+#start-screen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(../media/start.png);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: 2;
+}
+
 #menu {
     position: fixed;
     right: 0;
@@ -93,7 +133,7 @@ body {
     display: inline-grid;
     background-color: lightblue;
     height: 100vh;
-    width: 3000px;
+    width: 2000px;
     background-image: url(../media/BG.png);
     background-size: contain;
     background-position: center center;
