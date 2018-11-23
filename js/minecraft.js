@@ -1,6 +1,6 @@
 $(document.body).ready(function () {
     // Document is loaded and DOM is ready
-    function createWorlsButtons() {
+    function createWorldButtons() {
         for (let w = 0; w < worldTypes.length; w++) {
             let newBtn = $('<button/>');
             newBtn.addClass("button").html(worldTypes[w]).attr('id', worldTypes[w]);
@@ -8,19 +8,20 @@ $(document.body).ready(function () {
         }
     }
     function bindWorldsButtons() {
-        $('#random').on('click', function() {
+        $('#sunny').on('click', function() {
             $('#world').css('width', '2000px');
-            var randomMinecraft = new Minecraft(20, 50);
-            randomMinecraft.runGame();
+            var SunnyMinecraft = new Minecraft(20, 50);
+            SunnyMinecraft.runGame();
+            changeTheme($(this).attr('id'), SunnyMinecraft.tilesArray);
             $('#start-screen').hide();
             $('#menu').fadeIn();
             $('#world').fadeIn();
         });
-        $('#sunny').on('click', function () {
+        $('#desert').on('click', function () {
             $('#world').css('width', '85vw');
-            var sunnyMinecraft = new Minecraft(20, 25);
-            sunnyMinecraft.runGame();
-            changeTheme($(this).attr('id'), sunnyMinecraft.tilesArray);
+            var otherMinecraft = new Minecraft(20, 25);
+            otherMinecraft.runGame();
+            changeTheme($(this).attr('id'), otherMinecraft.tilesArray);
             $('#start-screen').hide();
             $('#menu').fadeIn();
             $('#world').fadeIn();
@@ -29,7 +30,6 @@ $(document.body).ready(function () {
             $('#world').css('width', '85vw');
             var darkMinecraft = new Minecraft(20, 25);
             darkMinecraft.runGame();
-            console.log(darkMinecraft.tilesArray);
             changeTheme($(this).attr('id'), darkMinecraft.tilesArray);
             $('#start-screen').hide();
             $('#menu').fadeIn();
@@ -37,15 +37,14 @@ $(document.body).ready(function () {
         });
     }
     function changeTheme(theme, tilesArray) {
-        $("head").append('<style type="text/css"></style>');
-        var newStyleElement = $("head").children(':last');
+        var styleElement = $("head").children(':last');
         var cssHtml = '';
         for(var i=0; i < tilesArray.length; i++) {
             cssHtml += `.${tilesArray[i]}{background-image: url(./media/${theme}/${tilesArray[i]}.png);}\n`;
         }
-        cssHtml += `#world {background-image: url(./media/${theme}/BG.jpg);}`;
+        cssHtml += `#world {background-image: url(./media/${theme}/BG.png);}`;
         cssHtml= cssHtml.trim();
-        newStyleElement.html(cssHtml);
+        styleElement.html(cssHtml);
     }
 
     class Minecraft {
@@ -319,6 +318,23 @@ $(document.body).ready(function () {
                 inventoryToDelete.text( (inventoryToDelete.text()-1).toString() );
             }
         }
+        createNewGameButton() {
+            var newGameBtn = $('<button/>');
+            newGameBtn.attr('id', 'new-game-button').addClass('button').text('New Game');
+            newGameBtn.css('font-size', '1vw').css('width', '60%').css('height', '5%');
+            $('#menu').append(newGameBtn);
+        }
+        bindNewGameButton() {
+            var self = this;
+            $('#new-game-button').on('click', function() {
+                $('#menu').hide();
+                $('#world').hide();
+                self = null;
+                $('#menu').empty();
+                $('#world').empty();
+                $('#start-screen').fadeIn();
+            });
+        }
         runGame() {
             this.createPixels();
             this.setGridCss();
@@ -326,6 +342,8 @@ $(document.body).ready(function () {
             this.connectMatrixDom();
             this.createToolsButtons();
             this.createInventory();
+            this.createNewGameButton();
+            this.bindNewGameButton();
             this.bindActiveChoice();
             this.bindCursorImage();
             this.bindOnPixelClick()
@@ -336,8 +354,8 @@ $(document.body).ready(function () {
     // main
     $('#menu').hide();
     $('#world').hide();
-    var worldTypes = ['dark', 'sunny', 'random'];
-    createWorlsButtons();
+    var worldTypes = ['dark', 'desert', 'sunny'];
+    createWorldButtons();
     bindWorldsButtons();
 
 });

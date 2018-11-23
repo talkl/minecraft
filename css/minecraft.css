@@ -12,7 +12,7 @@ body {
 #world-type {
     display: flex;
     justify-content: space-evenly;
-    top: 40%;
+    top: 75%;
     left: 50%;
     position: absolute;
     transform: translateX(-50%);
@@ -31,7 +31,7 @@ body {
 }
 #tutorial-button {
     position: absolute;
-    top: 20%;
+    top: 60%;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgb(153, 242, 64);
@@ -133,7 +133,6 @@ body {
     display: inline-grid;
     background-color: lightblue;
     height: 100vh;
-    background-image: url(../media/BG.png);
     background-size: cover;
     background-position: center center;
     background-repeat: repeat-x;
@@ -146,31 +145,4 @@ body {
 }
 .pixel:hover {
     opacity: 0.7;
-}
-.wood {
-    background-image: url(../media/wood.png);
-}
-.waves {
-    background-image: url(../media/waves.png);	
-}
-.water {
-    background-image: url(../media/water.png);	
-}
-.stone {
-    background-image: url(../media/stone.png);
-}
-.leaves {
-    background-image: url(../media/leaves.png);	
-}
-.grass {
-    background-image: url(../media/grass.png);	
-}
-.earth {
-    background-image: url(../media/earth.png);	
-}
-.cloud {
-    background-image: url(../media/cloud.png);
-}
-.tree {
-    background-image: url(../media/tree.png);
 }
