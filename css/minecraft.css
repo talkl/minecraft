@@ -36,6 +36,32 @@ body {
     transform: translateX(-50%);
     background-color: rgb(153, 242, 64);
 }
+#instructions-modal {
+    background-color: rgba(143, 188, 143, 1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 5%;
+    width: 80%;
+    height: 80%;
+    z-index: 3;
+    font-size: 2vw;
+    overflow: scroll;
+    display: none;
+}
+p {
+    text-align: center;
+    vertical-align: middle;
+    color: black;
+}
+#close-button {
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    font-size: 2vw;
+    cursor: pointer;
+}
 #start-screen {
     position: fixed;
     left: 0;

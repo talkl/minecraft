@@ -46,6 +46,26 @@ $(document.body).ready(function () {
         cssHtml= cssHtml.trim();
         styleElement.html(cssHtml);
     }
+    function createTutorialText() {
+        var newParagraph = document.createElement('p');
+        newParagraph.innerHTML = `How to play ?<br><br>
+        1. Bring your inner child to the front.<br><br>
+        2. right menu has tools. use them.<br><br>
+        3. the world is at your left. click it with the tools.<br><br>
+        4. if the tool matches the world object the inventory<br><br>
+        will be added with the object to your disposal.<br><br>
+        5. You can press any time the "New Game" button in order to start over.<br><br>
+        Have fun! `;
+        document.getElementById('instructions-modal').appendChild(newParagraph);
+    }
+    function bindTutorialButton() {
+        $('#tutorial-button').on('click', function() {
+            $('#instructions-modal').show();
+        });
+        $('#close-button').on('click', function() {
+            $('#instructions-modal').hide();
+        });
+    }
 
     class Minecraft {
         constructor(numOfRows,numOfColumns) {
@@ -357,5 +377,7 @@ $(document.body).ready(function () {
     var worldTypes = ['dark', 'desert', 'sunny'];
     createWorldButtons();
     bindWorldsButtons();
+    createTutorialText();
+    bindTutorialButton();
 
 });
